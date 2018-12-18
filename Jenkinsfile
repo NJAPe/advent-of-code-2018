@@ -2,7 +2,6 @@ node {
     stage ("checkout") {
         dir ("checkout"){
             checkout([$class: 'GitSCM',
-                branches: [[]],
                 refspec: "+refs/pull/*:refs/remotes/origin/pr/*"
                 extensions: [[$class: 'CleanCheckout']],
                 userRemoteConfigs: [[credentialsId: 'gitHub', url: 'https://github.com/NJAPe/advent-of-code-2018.git']]
