@@ -1,7 +1,15 @@
 node {
     stage ("checkout") {
         dir ("checkout"){
-            git url: "https://github.com/NJAPe/advent-of-code-2018.git"
+            checkout ([
+		                $class: 'GitSCM',
+		                branches: scm.branches,
+		                extensions: [
+		                		[$class: 'PruneStaleBranch'],
+		                		[$class: 'CleanCheckout']
+		                ],
+		                userRemoteConfigs: scm.userRemoteConfigs
+	                    ])
         }
     }
 
