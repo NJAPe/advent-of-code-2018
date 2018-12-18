@@ -12,8 +12,9 @@ def test_part_1_sample_input():
 
 
 def test_part_1_real_input():
-    my_input = p03.get_input_from_file(input_file_path)
-    number_of_patches = len(p03.get_intersection_patches(my_input))
+    with open(input_file_path) as f:
+        real_input = f.read().split("\n")
+    number_of_patches = len(p03.get_intersection_patches(real_input))
     assert_equal(number_of_patches, 121163, f"expected 121163 overlapping patches, but got {number_of_patches}")
 
 
@@ -23,6 +24,7 @@ def test_part_2_sample_input():
 
 
 def test_part_2_real_input():
-    my_input = p03.get_input_from_file(input_file_path)
-    non_overlapping_id = p03.get_non_intersecting_patch(my_input)
+    with open(input_file_path) as f:
+        real_input = f.read().split("\n")
+    non_overlapping_id = p03.get_non_intersecting_patch(real_input)
     assert_equal(non_overlapping_id, 943, f"expected id 943 but got {non_overlapping_id}")

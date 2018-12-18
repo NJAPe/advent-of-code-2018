@@ -76,14 +76,3 @@ def get_non_intersecting_patch(input):
         print("error")
         return None
     return still_ok[0]
-        
-
-def get_input_from_file(path_to_input):
-    with open(path_to_input) as f:
-        input = f.read().split("\n")
-    return input
-
-#input = ["#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2", ""]
-#print(len(get_intersection_patches(input)))
-#get_non_intersecting_patch(input)
-
