@@ -56,7 +56,7 @@ def get_non_intersecting_patch(input):
 
     patches = build_patches(patches_raw)
     rejected = set()
-    still_ok = patches.keys()
+    still_ok = list(patches)
     for k,v in patches.items():
         if k in rejected:
             continue
@@ -74,14 +74,16 @@ def get_non_intersecting_patch(input):
                 continue
     if len(still_ok) != 1:
         print("error")
-        print(still_ok)
-    print(still_ok)
+        return None
+    return still_ok[0]
         
 
+def get_input_from_file(path_to_input):
+    with open(path_to_input) as f:
+        input = f.read().split("\n")
+    return input
 
 #input = ["#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2", ""]
-with open("03_input.txt") as f:
-    input = f.read().split("\n")
 #print(len(get_intersection_patches(input)))
-get_non_intersecting_patch(input)
+#get_non_intersecting_patch(input)
 
