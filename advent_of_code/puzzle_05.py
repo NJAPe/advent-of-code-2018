@@ -2,7 +2,7 @@ def xor(a, b):
     return (a or b) and not (a and b)
 
 
-def collapse_poymer(polymer):
+def collapse_polymer(polymer):
     pos = 0
     while pos + 1 < len(polymer):
         first = polymer[pos]
@@ -18,19 +18,13 @@ def collapse_poymer(polymer):
     return polymer
 
 
-# in_val = "aAbBcCddD"
-# in_val = "dabAcCaCBAcCcaDA"
-# in_val = "aabAAB"
-with open("05_input.txt") as f:
-    in_val = f.read().strip()
-ans = len(collapse_poymer(in_val))
-print(f"Answer1: {ans}")
-
-alphabet = "abcdefghijklmnopqrstuvwxyz"
-for letter in alphabet:
-    tst = in_val.replace(letter.lower(), '')
-    tst = tst.replace(letter.upper(), '')
-    tmp = len(collapse_poymer(tst))
-    if tmp < ans:
-        ans = tmp
-print(f"Asnwer2: {ans}")
+def find_shortest_poly_by_removing_one_type(polymer):
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    ans = polymer
+    for letter in alphabet:
+        tst = polymer.replace(letter.lower(), '')
+        tst = tst.replace(letter.upper(), '')
+        tmp = collapse_polymer(tst)
+        if len(tmp) < len(ans):
+            ans = tmp
+    return ans
