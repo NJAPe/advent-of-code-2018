@@ -55,19 +55,19 @@ def part_1(my_in):
         del nodes[next]
         order += next
 
-    print(f"The correct mounting order is '{order}'")
+    return order
 
 
-def part_2(my_in, workers):
+def part_2(my_in, workers, task_offset=60):
     abc = "abcdefghijklmnopqrstuvwxyz"
     nodes = dict()
     for s in my_in:
         blocker = s[5]
         blocks = s[36]
         if blocker not in nodes:
-            nodes[blocker] = Node(blocker, abc.find(blocker.lower()) + 61)
+            nodes[blocker] = Node(blocker, abc.find(blocker.lower()) + task_offset + 1)
         if blocks not in nodes:
-            nodes[blocks] = Node(blocks, abc.find(blocks.lower()) + 61)
+            nodes[blocks] = Node(blocks, abc.find(blocks.lower()) + task_offset + 1)
         nodes[blocks].add_blocker(nodes[blocker], blocker)
 
     in_progress = dict()
@@ -94,18 +94,4 @@ def part_2(my_in, workers):
             del in_progress[d]
             del nodes[d]
 
-    print(f"It took '{seconds}' seconds")
-
-
-my_in = ["Step C must be finished before step A can begin.",
-"Step C must be finished before step F can begin.",
-"Step A must be finished before step B can begin.",
-"Step A must be finished before step D can begin.",
-"Step B must be finished before step E can begin.",
-"Step D must be finished before step E can begin.",
-"Step F must be finished before step E can begin."]
-
-with open("07_input.txt") as f:
-    my_in = f.read().strip().split("\n")
-part_1(my_in)
-part_2(my_in, 5)
+    return seconds

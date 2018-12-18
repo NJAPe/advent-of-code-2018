@@ -14,7 +14,9 @@ def test_checksum_sample_input():
 
 
 def test_checksum_real_input():
-    checksum = p02.calc_checksum(p02.get_codes_from_file(input_file_path))
+    with open(input_file_path) as f:
+        real_input = f.read().split("\n")
+    checksum = p02.calc_checksum(real_input)
     assert_equal(checksum, 7936, f"Expected checksum to ve 7936, but was {checksum}")
 
 
@@ -24,5 +26,7 @@ def test_similar_id_sample_input():
 
 
 def test_similar_id_real_input():
-    similar_str = p02.solve_part2(p02.get_codes_from_file(input_file_path))
+    with open(input_file_path) as f:
+        real_input = f.read().split("\n")
+    similar_str = p02.solve_part2(real_input)
     assert_equal(similar_str, "lnfqdscwjyteorambzuchrgpx", f"Expected similar string to be 'lnfqdscwjyteorambzuchrgpx', but was'{similar_str}'")

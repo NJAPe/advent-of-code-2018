@@ -43,9 +43,3 @@ def solve_part2(codes):
         if m1[i] == m2[i]:
             ans += m1[i]
     return ans
-
-
-def get_codes_from_file(in_file_path):
-    with open(in_file_path) as f:
-        my_codes = f.read().split("\n")
-    return my_codes
