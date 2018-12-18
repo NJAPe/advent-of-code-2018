@@ -106,18 +106,9 @@ def part_2(my_in, max_distance):
             if curr_dist < max_distance:
                 region_size += 1
 
-    print(f"The region size is {region_size}")
+    return region_size
 
 
 def part_1(my_in):
     mat = build_matrix(parse_input(my_in))
-    largest = get_largest_patch(mat)
-    print(f"The largest non infinite patch belongs to id '{largest[0]}' has the size {largest[1]}")
-
-
-#my_in = ["1, 1", "1, 6", "8, 3", "3, 4", "5, 5", "8, 9"]
-with open("06_input.txt") as f:
-    my_in = f.read().strip().split("\n")
-
-part_1(my_in)
-part_2(my_in, 10000)
+    return get_largest_patch(mat)
