@@ -8,7 +8,7 @@ input_file_path = os.path.join(os.path.dirname(__file__), "..", "inputs", "08_in
 
 def test_sum_metadata_sample():
     tree_head = p08.build_tree(sample_input_meta_data)
-    meta_sum = p08.sum_metadata(tree_head)
+    meta_sum = p08.sum_tree_metadata(tree_head)
     assert_equal(meta_sum, 138, f"expected meta_sum to be 138, but was {meta_sum}")
 
 
@@ -16,5 +16,19 @@ def test_sum_metadata():
     with open(input_file_path) as f:
         meta_data_inp = f.read().strip()
     tree_head = p08.build_tree(meta_data_inp)
-    meta_sum = p08.sum_metadata(tree_head)
+    meta_sum = p08.sum_tree_metadata(tree_head)
     assert_equal(meta_sum, 36891, f"expected meta_sum to be 36891, but was {meta_sum}")
+
+
+def test_node_sum_sample():
+    tree_head = p08.build_tree(sample_input_meta_data)
+    node_sum = p08.calculate_node_sum(tree_head)
+    assert_equal(node_sum, 66, f"expected node_sum to be 66, but was {node_sum}")
+
+
+def test_node_sum():
+    with open(input_file_path) as f:
+        meta_data_inp = f.read().strip()
+    tree_head = p08.build_tree(meta_data_inp)
+    node_sum = p08.calculate_node_sum(tree_head)
+    assert_equal(node_sum, 20083, f"expected node_sum to be 20083, but was {node_sum}")

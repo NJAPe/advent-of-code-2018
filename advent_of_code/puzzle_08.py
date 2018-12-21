@@ -38,10 +38,22 @@ def parse_tree(tree_def, idx):
     return idx, tree
 
 
-def sum_metadata(tree_head):
-    sum = 0
+def sum_tree_metadata(tree_head):
+    meta_sum = 0
     for c in tree_head.get_children():
-        sum += sum_metadata(c)
-    for meta in tree_head.get_metadata():
-        sum += meta
-    return sum
+        meta_sum += sum_tree_metadata(c)
+    meta_sum += sum(tree_head.get_metadata())
+    return meta_sum
+
+
+def calculate_node_sum(node):
+    number_of_children = len(node.get_children())
+    if number_of_children<= 0:
+        return sum(node.get_metadata())
+    
+    meta_sum = 0
+    for meta in node.get_metadata():
+        if meta > number_of_children:
+            continue
+        meta_sum += calculate_node_sum(node.get_children()[meta-1])
+    return meta_sum
