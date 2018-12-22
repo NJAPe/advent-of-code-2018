@@ -9,27 +9,30 @@ def calc_power_level(x, y, serial_id):
     return power_level
 
 
-def build_power_matrix(size_x, size_y, serial_id):
-    power_matrix = np.zeros((size_x, size_y), np.int16)
-    for x in range(size_x):
-        for y in range(size_y):
-            power_matrix[x, y] = calc_power_level(x + 1, y + 1, serial_id)
-    return power_matrix
+def build_summed_area_table(size_x, size_y, serial_id):
+    summed_area = np.zeros((size_x, size_y), np.long)
+    for y in range(1, size_y):
+        for x in range(1, size_x):
+            pl = calc_power_level(x, y, serial_id)
+            summed_area[x, y] = pl + summed_area[x, y-1] + summed_area[x-1, y] - summed_area[x-1, y-1]
+    return summed_area
 
 
 def find_largest_3_by_3_area(size_x, size_y, serial_id):
-    power_matrix = build_power_matrix(size_x, size_y, serial_id)
-    return find_largest_square_of_size(3, power_matrix, size_x, size_y)
+    summed_area = build_summed_area_table(size_x, size_y, serial_id)
+    return find_largest_square_of_size(3, summed_area, size_x, size_y)
 
 
-def find_largest_square_of_size(square_size, power_matrix, size_x, size_y):
+def find_largest_square_of_size(square_size, summed_area, size_x, size_y):
     max_power = -1, -1, float("-inf")
-    for x in range(size_x - (square_size - 1)):
-        for y in range(size_y - (square_size - 1)):
-            power_level = 0
-            for row in range(square_size):
-                for column in range(square_size):
-                    power_level += int(power_matrix[x+column, y+row])
+    offset = square_size
+    for y in range(1, size_y - offset):
+        for x in range(1, size_x - offset):
+            i_a = summed_area[x, y]
+            i_b = summed_area[x + offset, y]
+            i_c = summed_area[x, y + offset]
+            i_d = summed_area[x + offset, y + offset]
+            power_level = i_d + i_a - i_b - i_c
             if power_level > max_power[2]:
                 max_power = x + 1, y + 1, power_level
     return max_power
@@ -37,9 +40,9 @@ def find_largest_square_of_size(square_size, power_matrix, size_x, size_y):
 
 def find_largest_square(size_x, size_y, serial_id):
     max_power_size = -1, -1, -1, float("-inf")
-    power_matrix = build_power_matrix(size_x, size_y, serial_id)
+    summed_area = build_summed_area_table(size_x, size_y, serial_id)
     for i in range(1, 300 + 1):
-        power_level = find_largest_square_of_size(i, power_matrix, size_x, size_y)
+        power_level = find_largest_square_of_size(i, summed_area, size_x, size_y)
         if power_level[2] > max_power_size[3]:
             max_power_size = power_level[0], power_level[1], i, power_level[2]
     return max_power_size
