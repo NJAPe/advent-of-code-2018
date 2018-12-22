@@ -59,7 +59,7 @@ input_file_path = os.path.join(os.path.dirname(__file__), "..", "inputs", "10_in
 def test_sample_input():
     my_points = p10.parse_input(sample_input)
     assert_equal(len(my_points), 31, f"expexted there to be 31 points, but there was {len(my_points)}")
-    seconds, img_str = p10.step_and_print_image(my_points)
+    seconds, img_str = p10.find_message(my_points)
     assert_equal(seconds, 3, f"expected 3 seconds to have appeared, not {seconds}")
     assert_equal(img_str, sample_answer)
 
@@ -69,6 +69,6 @@ def test_real_input():
         real_input = f.read().strip().split("\n")
     my_points = p10.parse_input(real_input)
     assert_equal(len(my_points), 290, f"expexted there to be 290 points, but there was {len(my_points)}")
-    seconds, img_str = p10.step_and_print_image(my_points)
+    seconds, img_str = p10.find_message(my_points)
     assert_equal(seconds, 10515, f"expected 10515 seconds to have appeared, not {seconds}")
     assert_equal(img_str, real_answer)

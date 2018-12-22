@@ -23,7 +23,7 @@ def parse_input(input_points):
     return my_points
 
 
-def print_image(data, size_x, size_y):
+def create_image_str(data, size_x, size_y):
     image_str = ""
     for y in range(size_y):
         for x in range(size_x):
@@ -60,7 +60,7 @@ def get_sizes(min_x, min_y, max_x, max_y):
     return size_x, size_y
 
 
-def step_and_print_image(my_points):
+def find_message(my_points):
     # Initialize min/max/size
     min_x, min_y, max_x, max_y = update_min_max(my_points)
     size_x, size_y = get_sizes(min_x, min_y, max_x, max_y)
@@ -92,6 +92,6 @@ def step_and_print_image(my_points):
         data[x - min_x, y - min_y] = 1
 
     # Create image string
-    img_str = print_image(data, size_x, size_y)
+    img_str = create_image_str(data, size_x, size_y)
     print(img_str)
     return counter, img_str
