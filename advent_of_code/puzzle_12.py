@@ -1,3 +1,6 @@
+import os
+
+
 def get_spread_pattern(spread_input):
     spread_pattern = set()
     for line in spread_input:
@@ -20,13 +23,25 @@ def parse_input(my_input):
 
 
 def calc_next_gen(curr_pop, spread_pattern, curr_offset):
-    if curr_pop[0:5] != ".....":
-        curr_pop = "....." + curr_pop
-        curr_offset += 5
-    if curr_pop[-5:] != ".....":
-        curr_pop += "....."
+    start_idx = curr_pop.find("#")
+    if start_idx < 5:
+        missing = 5 - start_idx
+        curr_pop = missing*"." + curr_pop
+        curr_offset += missing
+    elif start_idx > 5:
+        remove = start_idx - 5
+        curr_pop = curr_pop[remove:]
+        curr_offset -= remove
+    end_idx = curr_pop.rfind("#")
+    num_dots = len(curr_pop) - end_idx - 1
+    if num_dots < 5:
+        add_dots = 5 - num_dots
+        curr_pop += add_dots*"."
+    elif num_dots > 5:
+        remove = num_dots - 5
+        curr_pop = curr_pop[:-remove]
     next_pop = ""
-    for idx in range(len(curr_pop)-1):
+    for idx in range(len(curr_pop)-3):
         key = curr_pop[idx-2:idx+3]
         if key in spread_pattern:
             next_pop += "#"
@@ -49,3 +64,16 @@ def calc_sum(state, offset):
         if c == "#":
             my_sum += idx - offset
     return my_sum
+
+# Code used to find how the number of plants increases each generation
+#sums = list()
+#input_file_path = os.path.join(os.path.dirname(__file__), "..", "inputs", "12_input.txt")
+#with open(input_file_path) as f:
+#    my_input = f.read().strip()
+#curr_pop, spread_patt = parse_input(my_input)
+#curr_offset = 0
+#for i in range(200):
+#    curr_pop, curr_offset = calc_next_gen(curr_pop, spread_patt, curr_offset)
+#    sums.append(calc_sum(curr_pop,curr_offset))
+#    if i > 0:
+#        print(f"{i}: current sum: {sums[i]}\t\t diff: {sums[i]-#sums[i-1]}")
