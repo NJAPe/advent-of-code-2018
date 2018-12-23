@@ -50,14 +50,6 @@ def calc_next_gen(curr_pop, spread_pattern, curr_offset):
     return next_pop, curr_offset
 
 
-def calc_to_generations(my_input, target_gen):
-    curr_pop, spread_patt = parse_input(my_input)
-    curr_offset = 0
-    for i in range(target_gen):
-        curr_pop, curr_offset = calc_next_gen(curr_pop, spread_patt, curr_offset)
-    return curr_pop, curr_offset
-
-
 def calc_sum(state, offset):
     my_sum = 0
     for idx, c in enumerate(state):
@@ -65,15 +57,29 @@ def calc_sum(state, offset):
             my_sum += idx - offset
     return my_sum
 
-# Code used to find how the number of plants increases each generation
-#sums = list()
-#input_file_path = os.path.join(os.path.dirname(__file__), "..", "inputs", "12_input.txt")
-#with open(input_file_path) as f:
-#    my_input = f.read().strip()
-#curr_pop, spread_patt = parse_input(my_input)
-#curr_offset = 0
-#for i in range(200):
-#    curr_pop, curr_offset = calc_next_gen(curr_pop, spread_patt, curr_offset)
-#    sums.append(calc_sum(curr_pop,curr_offset))
-#    if i > 0:
-#        print(f"{i}: current sum: {sums[i]}\t\t diff: {sums[i]-#sums[i-1]}")
+
+def calc_sum_after_x_generations(my_input, num_generations):
+    sums = list()
+    curr_pop, spread_patt = parse_input(my_input)
+
+    diff = 0
+    curr_offset = 0
+    generations = 0
+    for i in range(num_generations):
+        curr_pop, curr_offset = calc_next_gen(curr_pop, spread_patt, curr_offset)
+        generations += 1
+        sums.append(calc_sum(curr_pop,curr_offset))
+        if i >= 100:
+            diff = sums[i] - sums[i-1]
+            found = True
+            for j in range(100):
+                temp_diff = sums[i-j] - sums[i-j-1]
+                if temp_diff != diff:
+                    found = False
+                    break
+            if found:
+                break
+    if generations == num_generations:
+        return sums[generations - 1]
+    else:
+        return sums[generations-1] + (num_generations - generations)*diff
