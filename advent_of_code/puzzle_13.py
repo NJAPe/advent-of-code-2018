@@ -24,7 +24,7 @@ def find_and_add_carts_with_dir(line, direction, y_pos, carts):
 
 
 def parse_input(my_input):
-    tunnel_system_dirty = my_input.strip().split("\n")
+    tunnel_system_dirty = my_input.split("\n")
     carts = []
     tunnel_system = []
     for y, line_dirty in enumerate(tunnel_system_dirty):
@@ -34,3 +34,42 @@ def parse_input(my_input):
         line = find_and_add_carts_with_dir(line, down, y, carts)
         tunnel_system.append(line)
     return carts, tunnel_system
+
+
+def move_cart(cart, tunnel_sys):
+    cart.move_forward()
+    curr_coord = cart.get_coordinates()
+    current_tracktype = tunnel_sys[curr_coord[1]][curr_coord[0]]
+    if current_tracktype == "-" or current_tracktype == "|":
+        pass
+    elif current_tracktype == "+":
+        cart.intersect_rotate()
+    else:
+        cart.turn_rotate(current_tracktype)
+
+
+def find_crash_in_sorted_carts(carts):
+    prev_cart = None
+    for cart in carts:
+        if prev_cart is None:
+            prev_cart = cart
+            continue
+        if cart.get_coordinates() == prev_cart.get_coordinates():
+            return cart.get_coordinates()
+        else:
+            prev_cart = cart
+    return -1, -1
+
+
+def find_first_crash(my_input):
+    carts, tunnel_system = parse_input(my_input)
+    carts.sort()
+    crash_coordinates = find_crash_in_sorted_carts(carts)
+    while True:
+        for cart in carts:
+            move_cart(cart, tunnel_system)
+            carts_sorted = sorted(carts)
+            crash_coordinates = find_crash_in_sorted_carts(carts_sorted)
+            if crash_coordinates != (-1, -1):
+                return crash_coordinates
+        carts.sort()

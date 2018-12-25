@@ -8,6 +8,18 @@ class Cart:
         self.direction = direction
         self.cross_count = 0
 
+    def __lt__(self, other):
+        return (self.y, self.x) < (other.y, other.x)
+
+    def __le__(self, other):
+        return (self.y, self.x) <= (other.y, other.x)
+
+    def __gt__(self, other):
+        return (self.y, self.x) > (other.y, other.x)
+
+    def __ge__(self, other):
+        return (self.y, self.x) >= (other.y, other.x)
+
     def get_coordinates(self):
         return self.x, self.y
 

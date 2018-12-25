@@ -120,3 +120,11 @@ def test_turn_rotate_right_backward():
     cart = Cart(0, 0, ">")
     cart.turn_rotate("\\")
     assert_equal(cart.get_direction(), "v")
+
+
+def test_sorting_list_of_carts():
+    correct_order_coordinates = [(0, 0), (2, 0), (1, 1), (2, 1)]
+    carts = [Cart(2, 1, "<"), Cart(1, 1, "<"), Cart(2, 0, "<"), Cart(0, 0, "<")]
+    carts.sort()
+    for i in range(4):
+        assert_equal(carts[i].get_coordinates(), correct_order_coordinates[i], f"Wrong coordinates at index {i}")
