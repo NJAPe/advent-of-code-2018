@@ -8,6 +8,13 @@ sample_input = r"""/->-\
 | | |  | v  |
 \-+-/  \-+--/
   \------/"""
+sample_input_2 = r"""/>-<\  
+|   |  
+| /<+-\
+| | | v
+\>+</ |
+  |   ^
+  \<->/"""
 input_file_path = os.path.join(os.path.dirname(__file__), "..", "inputs", "13_input.txt")
 
 
@@ -39,3 +46,20 @@ def test_find_first_crash_real():
         my_input = f.read()
     crash_coord = p13.find_first_crash(my_input)
     assert_equal(crash_coord, (118, 66), "Wrong coordinates in first crash")
+
+
+def test_find_last_non_crashed_sample():
+    last_cart = p13.find_last_uncrashed_cart(sample_input)
+    assert_equal(last_cart, None, "There should not be any remaining carts")
+
+
+def test_find_last_non_crashed_sample_2():
+    last_cart = p13.find_last_uncrashed_cart(sample_input_2)
+    assert_equal(last_cart.get_coordinates(), (6, 4), "wrong coordinates of last cart")
+
+
+def test_find_last_non_crashed_real():
+    with open(input_file_path) as f:
+        my_input = f.read()
+    last_cart = p13.find_last_uncrashed_cart(my_input)
+    assert_equal(last_cart.get_coordinates(), (70, 129), "wrong coordinates of last cart")

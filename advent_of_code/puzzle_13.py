@@ -51,10 +51,13 @@ def move_cart(cart, tunnel_sys):
 def find_crash_in_sorted_carts(carts):
     prev_cart = None
     for cart in carts:
+        if cart.is_crashed():
+            continue
         if prev_cart is None:
             prev_cart = cart
             continue
         if cart.get_coordinates() == prev_cart.get_coordinates():
+            cart.cart_crash(prev_cart)
             return cart.get_coordinates()
         else:
             prev_cart = cart
@@ -64,7 +67,6 @@ def find_crash_in_sorted_carts(carts):
 def find_first_crash(my_input):
     carts, tunnel_system = parse_input(my_input)
     carts.sort()
-    crash_coordinates = find_crash_in_sorted_carts(carts)
     while True:
         for cart in carts:
             move_cart(cart, tunnel_system)
@@ -73,3 +75,21 @@ def find_first_crash(my_input):
             if crash_coordinates != (-1, -1):
                 return crash_coordinates
         carts.sort()
+
+
+def find_last_uncrashed_cart(my_input):
+    carts, tunnel_system = parse_input(my_input)
+    while len(carts) > 1:
+        carts.sort()
+        for cart in carts:
+            move_cart(cart, tunnel_system)
+            carts_sorted = sorted(carts)
+            find_crash_in_sorted_carts(carts_sorted)
+        carts_temp = carts.copy()
+        carts.clear()
+        for cart in carts_temp:
+            if not cart.is_crashed():
+                carts.append(cart)
+    if len(carts) == 1:
+        return carts[0]
+    return None

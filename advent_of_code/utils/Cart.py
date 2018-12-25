@@ -7,6 +7,7 @@ class Cart:
         self.y = y
         self.direction = direction
         self.cross_count = 0
+        self.crashed = False
 
     def __lt__(self, other):
         return (self.y, self.x) < (other.y, other.x)
@@ -22,6 +23,13 @@ class Cart:
 
     def get_coordinates(self):
         return self.x, self.y
+
+    def cart_crash(self, other):
+        self.crashed = True
+        other.crashed = True
+
+    def is_crashed(self):
+        return self.crashed
 
     def get_direction(self):
         return self.direction
