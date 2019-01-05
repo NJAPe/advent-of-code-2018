@@ -70,23 +70,17 @@ class Creature:
         for path in paths:
             route = path.get_route()
             x, y = route[-1]
-            last_pos = None
-            if len(route) > 1:
-                last_pos = route[-2]
 
             # take a step in each direction
-            if not last_pos or last_pos != (x+1, y):
-                add_path(new_paths, path, x+1, y, dungeon, covered_coord)
-                new_visited_coord.add((x+1, y))
-            if not last_pos or last_pos != (x, y+1):
-                add_path(new_paths, path, x, y+1, dungeon, covered_coord)
-                new_visited_coord.add((x, y+1))
-            if not last_pos or last_pos != (x-1, y):
-                add_path(new_paths, path, x-1, y, dungeon, covered_coord)
-                new_visited_coord.add((x-1, y))
-            if not last_pos or last_pos != (x, y-1):
-                add_path(new_paths, path, x, y-1, dungeon, covered_coord)
-                new_visited_coord.add((x, y-1))
+            add_path(new_paths, path, x+1, y, dungeon, covered_coord)
+            add_path(new_paths, path, x, y+1, dungeon, covered_coord)
+            add_path(new_paths, path, x-1, y, dungeon, covered_coord)
+            add_path(new_paths, path, x, y-1, dungeon, covered_coord)
+            # add coordinates to new visited coordinates
+            new_visited_coord.add((x + 1, y))
+            new_visited_coord.add((x, y + 1))
+            new_visited_coord.add((x - 1, y))
+            new_visited_coord.add((x, y-1))
         covered_coord = covered_coord.union(new_visited_coord)
         if len(new_paths) > 0:
             return self.calc_paths(dungeon, paths=new_paths, covered_coord=covered_coord)
