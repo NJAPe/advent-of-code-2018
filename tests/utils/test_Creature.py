@@ -4,6 +4,7 @@ from advent_of_code.utils.Gnome import Gnome
 
 dungeon = ["#######", "#.E...#", "#.....#", "#...G.#", "#######"]
 dungeon_no_gnome = ["#######", "#.E...#", "#.....#", "#.....#", "#######"]
+dungeon_adjacent = ["#######", "#.EG..#", "#.....#", "#.....#", "#######"]
 
 
 def test_attack_once():
@@ -38,11 +39,17 @@ def test_calc_paths_no_gnome():
 
 def test_move():
     my_elf = Elf(2, 1)
-    next_coord = my_elf.move(dungeon)
+    next_coord = my_elf.reposition(dungeon)
     assert_equal(next_coord, (3, 1), "wrong new position")
 
 
 def test_move_no_gnome():
     my_elf = Elf(2, 1)
-    next_coord = my_elf.move(dungeon_no_gnome)
+    next_coord = my_elf.reposition(dungeon_no_gnome)
+    assert_equal(next_coord, (2, 1), "wrong new position")
+
+
+def test_move_adjacent_creatures():
+    my_elf = Elf(2, 1)
+    next_coord = my_elf.reposition(dungeon_adjacent)
     assert_equal(next_coord, (2, 1), "wrong new position")
