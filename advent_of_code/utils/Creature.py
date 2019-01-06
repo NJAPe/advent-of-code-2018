@@ -14,9 +14,16 @@ class Creature:
         self.x = x
         self.y = y
         self.type = "NA"
+        self.HP = 200
+        self.AP = 3
 
     def get_coord(self):
         return self.x, self.y
+
+    def attack(self, other):
+        """Attack other unit, return true if unit was killed."""
+        other.HP -= self.AP
+        return other.HP <= 0
 
     def move(self, dungeon):
         paths = self.calc_paths(dungeon)
