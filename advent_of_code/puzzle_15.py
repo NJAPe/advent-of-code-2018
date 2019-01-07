@@ -129,3 +129,7 @@ def part_1(raw_input):
     for creature in creatures:
         remaining_health += creature.HP
     return number_of_turns * remaining_health
+
+
+def part_2(raw_input):
+    Elf
