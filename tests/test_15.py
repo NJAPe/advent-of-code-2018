@@ -113,3 +113,40 @@ def test_part_1_real():
         real_input = f.read()
     ans = p15.part_1(real_input)
     assert_equal(ans, 243390, "Wrong resulting answer")
+
+
+def test_part_2_sample_2():
+    ans = p15.part_2(sample_2)
+    assert_equal(ans, 4988, "Wrong resulting answer")
+
+
+def test_part_2_sample_3():
+    ans = p15.part_2(sample_3)
+    assert_equal(ans, 29064, "Wrong resulting answer")
+
+
+def test_part_2_sample_4():
+    ans = p15.part_2(sample_4)
+    assert_equal(ans, 31284, "Wrong resulting answer")
+
+
+def test_part_2_sample_5():
+    ans = p15.part_2(sample_5)
+    assert_equal(ans, 3478, "Wrong resulting answer")
+
+
+def test_part_2_sample_6():
+    ans = p15.part_2(sample_6)
+    assert_equal(ans, 6474, "Wrong resulting answer")
+
+
+def test_part_2_sample_7():
+    ans = p15.part_2(sample_7)
+    assert_equal(ans, 1140, "Wrong resulting answer")
+
+
+def test_part_2_real():
+    with open(input_file_path) as f:
+        real_input = f.read()
+    ans = p15.part_2(real_input)
+    assert_equal(ans, 59886, "Wrong resulting answer")

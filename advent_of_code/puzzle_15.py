@@ -2,7 +2,7 @@ from advent_of_code.utils.Elf import Elf
 from advent_of_code.utils.Gnome import Gnome
 
 
-def parse_input(raw_input):
+def parse_input(raw_input, elf_ap=3):
     raw_input = raw_input.strip()
     dungeon = raw_input.split("\n")
     creatures = list()
@@ -11,7 +11,7 @@ def parse_input(raw_input):
     for idx, row in enumerate(dungeon):
         i = row.find("E")
         while i >= 0:
-            creatures.append(Elf(i, idx))
+            creatures.append(Elf(i, idx, elf_ap))
             num_e += 1
             i = row.find("E", i+1)
         i = row.find("G")
@@ -132,4 +132,41 @@ def part_1(raw_input):
 
 
 def part_2(raw_input):
-    Elf
+    elf_ap = 3
+    elf_killed = True
+    while elf_killed:
+        elf_killed = False
+        elf_ap += 1
+        dungeon, creatures, num_e, num_g = parse_input(raw_input, elf_ap)
+
+        no_enemy_found = False
+        number_of_turns = 0
+        while not no_enemy_found and not elf_killed:
+            number_of_turns += 1
+            for creature in creatures:
+                if creature.HP <= 0:
+                    continue
+                if creature.type == "E" and num_g <= 0:
+                    no_enemy_found = True
+                    break
+                if creature.type == "G" and num_e <= 0:
+                    no_enemy_found = True
+                    break
+                reposition_creature(dungeon, creature)
+                print_dungeon_state(dungeon, creatures, number_of_turns)
+                killed_creature = attack_adjacent_enemy(dungeon, creature, creatures)
+                if killed_creature == "E":
+                    num_e -= 1
+                    elf_killed = True
+                    break
+                elif killed_creature == "G":
+                    num_g -= 1
+                else:
+                    pass
+            creatures = [creature for creature in creatures if creature.HP > 0]
+            creatures = sorted(creatures)
+    number_of_turns -= 1
+    remaining_health = 0
+    for creature in creatures:
+        remaining_health += creature.HP
+    return number_of_turns * remaining_health
